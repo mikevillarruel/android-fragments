@@ -1,15 +1,42 @@
 package com.example.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 
 class SecondFragment : Fragment(R.layout.fragment_second) {
 
+    private var name: String? = ""
+    private var age: Int? = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        name = requireArguments().getString(NAME)
+        age = requireArguments().getInt(AGE)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val text = view.findViewById<TextView>(R.id.txtOutput)
+        text.text = "$name $age"
+        val button = view.findViewById<Button>(R.id.btnSendData)
+        button.setOnClickListener {
+            val result = "Result"
+            setFragmentResult("requestKey", bundleOf("bundleKey" to result))
+        }
+    }
+
+    companion object {
+        private const val NAME = "name"
+        private const val AGE = "age"
+
+        fun newInstance(name: String, age: Int) = SecondFragment().apply {
+            arguments = bundleOf(NAME to name, AGE to age)
+        }
     }
 
 }
