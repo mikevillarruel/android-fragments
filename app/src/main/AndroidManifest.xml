@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fragments">
         <activity android:name=".MainActivity">
+            <nav-graph android:value="@navigation/product_graph"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

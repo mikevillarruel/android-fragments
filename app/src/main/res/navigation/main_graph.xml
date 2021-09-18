@@ -33,4 +33,5 @@
             app:argType="integer"
             android:defaultValue="-1" />
     </fragment>
+    <include app:graph="@navigation/product_graph" />
 </navigation>
