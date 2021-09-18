@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 
 class FirstFragment : Fragment(R.layout.fragment_first) {
 
@@ -21,10 +23,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         }
 
         btnGo.setOnClickListener {
-            requireActivity().supportFragmentManager.commit {
-                replace(R.id.fragment_container_view, SecondFragment.newInstance("Mike", 25))
-                addToBackStack("firstFragment")
-            }
+            findNavController().navigate(R.id.action_firstFragment_to_secondFragment, bundleOf("name" to "Mike", "age" to 25))
         }
     }
 }
