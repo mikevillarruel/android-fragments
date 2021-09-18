@@ -23,7 +23,8 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         }
 
         btnGo.setOnClickListener {
-            findNavController().navigate(R.id.action_firstFragment_to_secondFragment, bundleOf("name" to "Mike", "age" to 25))
+            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment("Mike",25)
+            findNavController().navigate(action)
         }
     }
 }
