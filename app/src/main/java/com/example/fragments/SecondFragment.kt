@@ -7,26 +7,24 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 
 class SecondFragment : Fragment(R.layout.fragment_second) {
 
-    private var name: String? = ""
-    private var age: Int? = 0
-    private val args: SecondFragmentArgs by navArgs()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        name = args.name
-        age = args.age
-    }
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val text = view.findViewById<TextView>(R.id.txtOutput)
-        text.text = "$name $age"
+        viewModel.getUser().observe(viewLifecycleOwner, Observer { user ->
+            text.text = "${user.name} ${user.edad}"
+        })
+
+        findNavController().previousBackStackEntry?.savedStateHandle?.set("user",User("Julio",29))
+
         val button = view.findViewById<Button>(R.id.btnSendData)
         button.setOnClickListener {
             val result = "Result"

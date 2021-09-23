@@ -1,16 +1,18 @@
 package com.example.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 
 class FirstFragment : Fragment(R.layout.fragment_first) {
+
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,8 +25,13 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         }
 
         btnGo.setOnClickListener {
-            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment("Mike",25)
-            findNavController().navigate(action)
+            viewModel.setUser(User("Mike", 25))
+            findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
         }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<User>("user")
+            ?.observe(viewLifecycleOwner) { result ->
+                Log.d("User", result.toString())
+            }
     }
 }
